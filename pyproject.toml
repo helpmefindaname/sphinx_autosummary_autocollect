@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "python-template"
+name = "sphinx-autosummary-autocollect"
 version = "0.1.0"
-description = "Python template with opinionated setup of my personal preferences."
+description = "Sphinx plugin based on autosummary, that automatically collects symbols if non are provided ."
 authors = ["Benedikt Fuchs <benedikt.fuchs.staw@hotmail.com>"]
-license = "MIT"
+license = "BSD-2-Clause"
 readme = "README.md"
-packages = [{ include = "python_template" }]
+packages = [{ include = "sphinx_autosummary_autocollect" }]
 repository = "https://github.com/helpmefindaname/python-template"
 
 [tool.poetry.scripts]
@@ -13,6 +13,7 @@ python_template = "python_template.cli:main"
 
 [tool.poetry.dependencies]
 python = "^3.9"
+sphinx = ">=7.2.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.2.0"
@@ -23,6 +24,8 @@ black = "^22.12.0"
 ruff = "^0.6.4"
 pytest-github-actions-annotate-failures = "^0.1.8"
 pytest-xdist = "^3.1.0"
+sphinx = "~7.4.0"  # pin sphinx version for development but not in package.
+types-docutils = "^0.21.0.20240907"
 
 [build-system]
 requires = ["poetry-core"]
