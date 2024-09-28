@@ -51,7 +51,7 @@ import re
 import sys
 from os import path
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, NamedTuple
+from typing import TYPE_CHECKING, Any, NamedTuple, Optional, Union
 
 from jinja2 import TemplateNotFound
 from jinja2.sandbox import SandboxedEnvironment
@@ -117,7 +117,7 @@ class DummyApplication:
 
 class AutosummaryEntry(NamedTuple):
     name: str
-    path: str | None
+    path: Optional[str]
     template: str
     recursive: bool
 
@@ -193,7 +193,7 @@ class AutosummaryRenderer:
         return template.render(context)
 
 
-def _split_full_qualified_name(name: str) -> tuple[str | None, str]:
+def _split_full_qualified_name(name: str) -> tuple[Optional[str], str]:
     """Split full qualified name to a pair of modname and qualname.
 
     A qualname is an abbreviation for "Qualified name" introduced at PEP-3155
@@ -312,8 +312,8 @@ def generate_autosummary_content(
     app: Any,
     recursive: bool,
     context: dict[str, Any],
-    modname: str | None = None,
-    qualname: str | None = None,
+    modname: Optional[str] = None,
+    qualname: Optional[str] = None,
 ) -> str:
     doc = get_documenter(app, obj, parent)
 
@@ -475,7 +475,7 @@ def _get_modules(
     *,
     skip: Sequence[str],
     name: str,
-    public_members: Sequence[str] | None = None,
+    public_members: Optional[Sequence[str]] = None,
 ) -> tuple[list[str], list[str]]:
     items: list[str] = []
     public: list[str] = []
@@ -504,11 +504,11 @@ def _get_modules(
 
 def generate_autosummary_docs(
     sources: list[str],
-    output_dir: str | os.PathLike[str] | None = None,
+    output_dir: Union[os.PathLike, str, None] = None,
     suffix: str = ".rst",
-    base_path: str | os.PathLike[str] | None = None,
+    base_path: Union[os.PathLike, str, None] = None,
     imported_members: bool = False,
-    app: Sphinx | None = None,
+    app: Optional[Sphinx] = None,
     overwrite: bool = True,
     encoding: str = "utf-8",
 ) -> list[Path]:
@@ -641,7 +641,7 @@ def find_autosummary_in_files(filenames: list[str], app) -> list[AutosummaryEntr
 def find_autosummary_in_docstring(
     name: str,
     app,
-    filename: str | None = None,
+    filename: Optional[str] = None,
 ) -> list[AutosummaryEntry]:
     """Find out what items are documented in the given object's docstring.
 
@@ -667,8 +667,8 @@ def find_autosummary_in_docstring(
 def find_autosummary_in_lines(
     lines: list[str],
     app,
-    module: str | None = None,
-    filename: str | None = None,
+    module: Optional[str] = None,
+    filename: Optional[str] = None,
 ) -> list[AutosummaryEntry]:
     """Find out what items appear in autosummary:: directives in the
     given lines.
@@ -683,7 +683,7 @@ def find_autosummary_in_lines(
     documented: list[AutosummaryEntry] = []
 
     recursive = False
-    toctree: str | None = None
+    toctree: Optional[str] = None
     template = ""
     current_module = module
     in_autosummary = False

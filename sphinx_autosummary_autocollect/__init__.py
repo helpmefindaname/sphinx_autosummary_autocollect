@@ -356,7 +356,7 @@ class Autosummary(SphinxDirective):
 
         if not names:
             # Deviation from original: if no names are found, scan the module.
-            from sphinx_autosummary_autocollect.generate import ModuleScanner
+            from sphinx_autosummary_autocollect import ModuleScanner
 
             app = self.env.app
             module_name = next(filter(None, prefixes), None)  # assume the first not-none prefix is the current module
@@ -866,7 +866,7 @@ def process_generate_options(app: Sphinx) -> None:
         )
         return
 
-    from sphinx.ext.autosummary.generate import generate_autosummary_docs
+    from sphinx_autosummary_autocollect import generate_autosummary_docs
 
     imported_members = app.config.autosummary_imported_members
     with mock(app.config.autosummary_mock_imports):
